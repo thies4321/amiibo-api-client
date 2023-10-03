@@ -1,0 +1,31 @@
+{
+    "name": "thies4321/amiibo-api-client",
+    "description": "API for amiiboapip.com",
+    "keywords": ["amiibo", "api"],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Amiibo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Amiibo\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php-http/client-common": "^2.7",
+        "php-http/httplug": "^2.4",
+        "php-http/discovery": "^1.19",
+        "symfony/serializer": "^6.3"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^7.7",
+        "psy/psysh": "^0.11.18"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
