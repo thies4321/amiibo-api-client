@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Amiibo\Serializer\Normalizer;
 
-use Amiibo\Model\Type;
+use Amiibo\Model\GameSeries;
 use RuntimeException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
@@ -13,21 +13,21 @@ use function array_map;
 /**
  * @method array getSupportedTypes(?string $format)
  */
-final class TypeNormalizer extends AbstractNormalizer
+final class GameSeriesNormalizer extends AbstractNormalizer
 {
-    public const TYPE = 'TYPE';
+    public const TYPE = 'GAMESERIES';
 
     /**
-     * @return Type[]
+     * @return GameSeries[]
      */
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): array
     {
         if (! empty($data['amiibo']) && ! isset($data['amiibo'][0])) {
-            return [Type::createFromArray($data['amiibo'])];
+            return [GameSeries::createFromArray($data['amiibo'])];
         }
 
-        return array_map(function (array $typeData) {
-            return Type::createFromArray($typeData);
+        return array_map(function (array $gameSeriesData) {
+            return GameSeries::createFromArray($gameSeriesData);
         }, $data['amiibo'] ?? []);
     }
 

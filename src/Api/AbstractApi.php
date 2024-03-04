@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Amiibo\Api;
 
 use Amiibo\Client;
-use Amiibo\Serializer\Normalizer\AmiiboCollectionNormalizer;
 use Amiibo\Serializer\Normalizer\AmiiboNormalizer;
-use Amiibo\Serializer\Normalizer\TypeCollectionNormalizer;
+use Amiibo\Serializer\Normalizer\CharacterNormalizer;
+use Amiibo\Serializer\Normalizer\GameSeriesNormalizer;
+use Amiibo\Serializer\Normalizer\SeriesNormalizer;
 use Amiibo\Serializer\Normalizer\TypeNormalizer;
 use Http\Client\Exception as HttpClientException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -27,9 +28,10 @@ abstract class AbstractApi
     {
         $this->client = $client;
         $this->serializer = $serializer ?? new Serializer([
-            new AmiiboCollectionNormalizer(),
             new AmiiboNormalizer(),
-            new TypeCollectionNormalizer(),
+            new CharacterNormalizer(),
+            new GameSeriesNormalizer(),
+            new SeriesNormalizer(),
             new TypeNormalizer(),
         ], [
             new JsonEncoder()

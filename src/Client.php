@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Amiibo;
 
 use Amiibo\Api\Amiibo;
-use Amiibo\Api\Type;
 use Amiibo\HttpClient\Builder;
 use Amiibo\HttpClient\Plugin\ExceptionThrower;
 use Http\Client\Common\HttpMethodsClientInterface;
@@ -49,10 +48,5 @@ final class Client
     public function amiibo(): Amiibo
     {
         return new Amiibo($this);
-    }
-
-    public function type(): Type
-    {
-        return new Type($this);
     }
 }

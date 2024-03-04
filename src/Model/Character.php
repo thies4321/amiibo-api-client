@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Amiibo\Model;
 
-final readonly class Type
+final readonly class Character
 {
     public function __construct(
         public string $key = '',
@@ -12,11 +12,11 @@ final readonly class Type
     ) {
     }
 
-    public static function createFromArray(array $type): self
+    public static function createFromArray(array $character): self
     {
         return new self(
-            $type['key'] ?? '',
-            $type['name'] ?? '',
+            $character['key'] ?? '',
+            $character['name'] ?? '',
         );
     }
 }

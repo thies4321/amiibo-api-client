@@ -2,16 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the Gitlab API library.
- *
- * (c) Matt Humphrey <matth@windsor-telecom.co.uk>
- * (c) Graham Campbell <hello@gjcampbell.co.uk>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Amiibo\HttpClient;
 
 use Http\Client\Common\HttpMethodsClient;
@@ -35,16 +25,6 @@ final class Builder
     private array $plugins = [];
     private ?HttpMethodsClientInterface $pluginClient;
 
-    /**
-     * Create a new http client builder instance.
-     *
-     * @param ClientInterface|null         $httpClient
-     * @param RequestFactoryInterface|null $requestFactory
-     * @param StreamFactoryInterface|null  $streamFactory
-     * @param UriFactoryInterface|null     $uriFactory
-     *
-     * @return void
-     */
     public function __construct(
         ?ClientInterface $httpClient = null,
         ?RequestFactoryInterface $requestFactory = null,
@@ -57,9 +37,6 @@ final class Builder
         $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
     }
 
-    /**
-     * @return HttpMethodsClientInterface
-     */
     public function getHttpClient(): HttpMethodsClientInterface
     {
         if (null === $this->pluginClient) {
@@ -75,56 +52,27 @@ final class Builder
         return $this->pluginClient;
     }
 
-    /**
-     * Get the request factory.
-     *
-     * @return RequestFactoryInterface
-     */
     public function getRequestFactory(): RequestFactoryInterface
     {
         return $this->requestFactory;
     }
 
-    /**
-     * Get the stream factory.
-     *
-     * @return StreamFactoryInterface
-     */
     public function getStreamFactory(): StreamFactoryInterface
     {
         return $this->streamFactory;
     }
 
-    /**
-     * Get the URI factory.
-     *
-     * @return UriFactoryInterface
-     */
     public function getUriFactory(): UriFactoryInterface
     {
         return $this->uriFactory;
     }
 
-    /**
-     * Add a new plugin to the end of the plugin chain.
-     *
-     * @param Plugin $plugin
-     *
-     * @return void
-     */
     public function addPlugin(Plugin $plugin): void
     {
         $this->plugins[] = $plugin;
         $this->pluginClient = null;
     }
 
-    /**
-     * Remove a plugin by its fully qualified class name (FQCN).
-     *
-     * @param string $fqcn
-     *
-     * @return void
-     */
     public function removePlugin(string $fqcn): void
     {
         foreach ($this->plugins as $idx => $plugin) {

@@ -4,101 +4,106 @@ declare(strict_types=1);
 
 namespace Amiibo\Api;
 
-use Amiibo\Model\AmiiboCollection;
-
-use Http\Client\Exception as HttpClientException;
+use Amiibo\Model\Character;
+use Amiibo\Model\GameSeries;
+use Amiibo\Model\Series;
+use Amiibo\Model\Type;
+use Amiibo\Serializer\Normalizer\AmiiboNormalizer;
+use Amiibo\Serializer\Normalizer\CharacterNormalizer;
+use Amiibo\Serializer\Normalizer\GameSeriesNormalizer;
+use Amiibo\Serializer\Normalizer\SeriesNormalizer;
+use Amiibo\Serializer\Normalizer\TypeNormalizer;
+use DateTimeImmutable;
+use Http\Client\Exception as ClientException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use function array_merge;
+use function json_decode;
 
 final class Amiibo extends AbstractApi
 {
-    private const URI = 'amiibo';
-
     /**
-     * @throws HttpClientException
+     * @return Amiibo[]
+     *
+     * @throws ClientException
      */
-    private function getCollectionByNameAndValue(string $name, string $value)
+    public function amiibo(array $parameters = []): array
     {
+        $responseBody = $this->get('amiibo', $parameters);
+
         return $this->serializer->deserialize(
-            $this->get(self::URI, [$name => $value]),
-            AmiiboCollection::class,
+            $responseBody,
+            AmiiboNormalizer::TYPE,
             JsonEncoder::FORMAT,
         );
     }
 
     /**
-     * @throws HttpClientException
+     * @return Type[]
+     *
+     * @throws ClientException
      */
-    public function all(): AmiiboCollection
+    public function type(array $parameters = []): array
     {
+        $responseBody = $this->get('type', $parameters);
+
         return $this->serializer->deserialize(
-            $this->get(self::URI),
-            AmiiboCollection::class,
+            $responseBody,
+            TypeNormalizer::TYPE,
             JsonEncoder::FORMAT,
         );
     }
 
     /**
-     * @throws HttpClientException
+     * @return GameSeries[]
+     *
+     * @throws ClientException
      */
-    public function series(string $amiiboSeries): AmiiboCollection
+    public function gameseries(array $parameters = []): array
     {
-        return $this->getCollectionByNameAndValue('amiiboSeries', $amiiboSeries);
-    }
+        $responseBody = $this->get('gameseries', $parameters);
 
-    /**
-     * @throws HttpClientException
-     */
-    public function character(string $character): AmiiboCollection
-    {
-        return $this->getCollectionByNameAndValue('character', $character);
-    }
-
-    /**
-     * @throws HttpClientException
-     */
-    public function gameSeries(string $gameSeries): AmiiboCollection
-    {
-        return $this->getCollectionByNameAndValue('gameseries', $gameSeries);
-    }
-
-    /**
-     * @throws HttpClientException
-     */
-    public function head(string $head): AmiiboCollection
-    {
-        return $this->getCollectionByNameAndValue('head', $head);
-    }
-
-    /**
-     * @throws HttpClientException
-     */
-    public function name(string $name): AmiiboCollection
-    {
-        return $this->getCollectionByNameAndValue('name', $name);
-    }
-
-    /**
-     * @throws HttpClientException
-     */
-    public function showGames(array $filters = []): AmiiboCollection
-    {
         return $this->serializer->deserialize(
-            $this->get(self::URI, array_merge(['showgames' => true], $filters)),
-            AmiiboCollection::class,
+            $responseBody,
+            GameSeriesNormalizer::TYPE,
             JsonEncoder::FORMAT,
         );
     }
 
     /**
-     * @throws HttpClientException
+     * @return Series[]
+     *
+     * @throws ClientException
      */
-    public function showUsage(array $filters = []): AmiiboCollection
+    public function series(array $parameters = []): array
     {
+        $responseBody = $this->get('amiiboseries', $parameters);
+
         return $this->serializer->deserialize(
-            $this->get(self::URI, array_merge(['showusage' => true], $filters)),
-            AmiiboCollection::class,
+            $responseBody,
+            SeriesNormalizer::TYPE,
             JsonEncoder::FORMAT,
         );
+    }
+
+    /**
+     * @return Character[]
+     *
+     * @throws ClientException
+     */
+    public function character(array $parameters = []): array
+    {
+        $responsBody = $this->get('character', $parameters);
+
+        return $this->serializer->deserialize(
+            $responsBody,
+            CharacterNormalizer::TYPE,
+            JsonEncoder::FORMAT,
+        );
+    }
+
+    public function lastUpdated(): DateTimeImmutable
+    {
+        $responseBody = $this->get('lastupdated');
+
+        return new DateTimeImmutable(json_decode($responseBody, true)['lastUpdated'] ?? '');
     }
 }

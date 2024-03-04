@@ -5,47 +5,32 @@ declare(strict_types=1);
 namespace Amiibo\Serializer\Normalizer;
 
 use Amiibo\Model\Amiibo;
-use DateTimeImmutable;
 use RuntimeException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
-use function sprintf;
+use function array_map;
 
-class AmiiboNormalizer extends AbstractNormalizer
+final class AmiiboNormalizer extends AbstractNormalizer
 {
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): Amiibo
+    public const TYPE = 'AMIIBO';
+
+    /**
+     * @return Amiibo[]
+     */
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): array
     {
-        $releases = $data['release'] ?? null;
-
-        if ($releases !== null) {
-            foreach ($releases as $country => $date) {
-                if ($date === null) {
-                    continue;
-                }
-
-                $releases[$country] = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', sprintf('%s 00:00:00', $date));
-            }
+        if (! empty($data['amiibo']) && ! isset($data['amiibo'][0])) {
+            return [Amiibo::createFromArray($data['amiibo'])];
         }
 
-        return new Amiibo(
-            $data['amiiboSeries'] ?? null,
-            $data['character'] ?? null,
-            $data['gameSeries'] ?? null,
-            $data['games3DS'] ?? null,
-            $data['gamesSwitch'] ?? null,
-            $data['gamesWiiU'] ?? null,
-            $data['head'] ?? null,
-            $data['image'] ?? null,
-            $data['name'] ?? null,
-            $releases,
-            $data['tail'] ?? null,
-            $data['type'] ?? null,
-        );
+        return array_map(function (array $amiiboData) {
+            return Amiibo::createFromArray($amiiboData);
+        }, $data['amiibo'] ?? []);
     }
 
     public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
     {
-        return $type === Amiibo::class;
+        return $type === self::TYPE;
     }
 
     public function normalize(mixed $object, string $format = null, array $context = []): void
@@ -53,7 +38,7 @@ class AmiiboNormalizer extends AbstractNormalizer
         throw new RuntimeException('This should never be called');
     }
 
-    public function supportsNormalization(mixed $data, string $format = null): false
+    public function supportsNormalization(mixed $data, string $format = null): bool
     {
         return false;
     }
