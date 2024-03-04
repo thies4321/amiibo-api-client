@@ -14,8 +14,10 @@ use Amiibo\Serializer\Normalizer\GameSeriesNormalizer;
 use Amiibo\Serializer\Normalizer\SeriesNormalizer;
 use Amiibo\Serializer\Normalizer\TypeNormalizer;
 use DateTimeImmutable;
+use Exception;
 use Http\Client\Exception as ClientException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+
 use function json_decode;
 
 final class Amiibo extends AbstractApi
@@ -100,6 +102,10 @@ final class Amiibo extends AbstractApi
         );
     }
 
+    /**
+     * @throws ClientException
+     * @throws Exception
+     */
     public function lastUpdated(): DateTimeImmutable
     {
         $responseBody = $this->get('lastupdated');
