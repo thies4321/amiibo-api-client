@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 use function json_decode;
 
-final class Amiibo extends AbstractApi
+class Amiibo extends AbstractApi
 {
     /**
      * @return Amiibo[]

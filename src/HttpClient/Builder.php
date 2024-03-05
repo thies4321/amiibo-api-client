@@ -23,7 +23,7 @@ final class Builder
     private UriFactoryInterface $uriFactory;
     /** @var Plugin[] */
     private array $plugins = [];
-    private ?HttpMethodsClientInterface $pluginClient;
+    private ?HttpMethodsClientInterface $pluginClient = null;
 
     public function __construct(
         ?ClientInterface $httpClient = null,
@@ -39,7 +39,7 @@ final class Builder
 
     public function getHttpClient(): HttpMethodsClientInterface
     {
-        if (null === $this->pluginClient) {
+        if ($this->pluginClient === null) {
             $plugins = $this->plugins;
 
             $this->pluginClient = new HttpMethodsClient(
