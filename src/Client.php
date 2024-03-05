@@ -15,7 +15,7 @@ use Http\Client\Common\Plugin\RedirectPlugin;
 final class Client
 {
     private const BASE_URL = 'https://amiiboapi.com/';
-    private const USER_AGENT = 'amiibo-api-client/1.0';
+    private const USER_AGENT = 'amiibo-api-client/1.0.0';
 
     private Builder $httpClientBuilder;
 
