@@ -28,7 +28,7 @@ final class CharacterNormalizer extends AbstractNormalizer
 
         return array_map(function (array $characterData) {
             return Character::createFromArray($characterData);
-        }, $data['amiibo'] ?? '');
+        }, $data['amiibo'] ?? []);
     }
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool

@@ -1,0 +1,36 @@
+{
+  "amiibo": [
+    {
+      "amiiboSeries": "Testseries",
+      "character": "Testcharacter",
+      "gameSeries": "Testgameseries",
+      "head": "1234",
+      "image": "https://example.com/test1.png",
+      "name": "Testname",
+      "release": {
+        "au": "1970-01-01",
+        "eu": "1970-01-02",
+        "jp": "1970-01-03",
+        "na": "1970-01-04"
+      },
+      "tail": "4321",
+      "type": "Testtype"
+    },
+    {
+      "amiiboSeries": "Testseries2",
+      "character": "Testcharacter2",
+      "gameSeries": "Testgameseries2",
+      "head": "5678",
+      "image": "https://example.com/test2.png",
+      "name": "Testname2",
+      "release": {
+        "au": "1970-01-05",
+        "eu": "1970-01-06",
+        "jp": "1970-01-07",
+        "na": "1970-01-08"
+      },
+      "tail": "8765",
+      "type": "Testtype2"
+    }
+  ]
+}

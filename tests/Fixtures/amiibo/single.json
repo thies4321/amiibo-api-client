@@ -1,0 +1,18 @@
+{
+  "amiibo": {
+    "amiiboSeries": "Testseries",
+    "character": "Testcharacter",
+    "gameSeries": "Testgameseries",
+    "head": "1234",
+    "image": "https://example.com/test1.png",
+    "name": "Testname",
+    "release": {
+      "au": "1970-01-01",
+      "eu": "1970-01-02",
+      "jp": "1970-01-03",
+      "na": "1970-01-04"
+    },
+    "tail": "4321",
+    "type": "Testtype"
+  }
+}
